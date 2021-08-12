@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        /* outline: 0; */
+      }
+      body {
+        margin: 0;
+        font-size: 1.2rem;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      #title {
+        font-size: 1.7rem;
+        font-weight: 800;
+        margin-top: 5%;
+        margin-bottom: 5%;
+      }
+
+      #center {
+        display: flex;
+        justify-content: center;
+      }
+
+      #item {
+        max-width: 30px;
+      }
+
+      #emp p {
+        margin: 0;
+      }
+
+      #spaceItem {
+        /* margin-top: 20px; */
+        margin-bottom: 10px;
+      }
+
+      footer {
+        margin-top: 5%;
+      }
+    </style>
+
+    <title>Carta de Responsabilidade da Administração</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row mt-0 mb-0">
+        <div class="col-sm-9">
+          <div class="row">
+            <p class="mb-0"><b>Empresa:</b> <%= office.razaoCliente %></p>
+          </div>
+          <div class="row">
+            <p class="mb-0">
+              CNPJ: <%= office.cnpjCliente?.replace(/\D/g,
+              '').replace(/^(\d{2})(\d{3})?(\d{3})?(\d{4})?(\d{2})?/,
+              "$1.$2.$3/$4-$5"); %>
+            </p>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="row">
+            <div class="col">
+              <p class="mb-0">Folha:</p>
+              <% if (office.checkBookNumber) { %>
+              <p class="mb-0">Número livro:</p>
+              <% } %> <% if (office.checkEmissionDate) { %>
+              <p class="mb-0">Emissão:</p>
+              <p class="mb-0">Hora:</p>
+              <% } %>
+            </div>
+            <div class="col">
+              <p class="mb-0">0001</p>
+              <% if (office.checkBookNumber) { %>
+              <p class="mb-0"><%= office.bookNumber %></p>
+              <% } %> <% if (office.checkEmissionDate) { %>
+              <p class="mb-0"><%= new Date().toLocaleDateString() %></p>
+              <p class="mb-0"><%= new Date().toLocaleTimeString() %></p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="center">
+          <h1 id="title">CARTA DE RESPONSABILIDADE DA ADMINISTRAÇÃO</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-11" style="display: flex; justify-content: flex-end;">
+          <span
+            >CARUARU, <%= new Date(office.endDate).toLocaleDateString() %>
+          </span>
+        </div>
+      </div>
+      <div class="row" id="spaceItem">
+        <div class="col" id="emp">
+          <p style="margin-bottom: 10px;">À</p>
+          <p><%= office.razao %></p>
+          <p>CRC n.º <%= office.crcContador %></p>
+          <p>
+            Endereço: <%= office.typeAdress %> <%= office.adress %>, nº <%=
+            office.number %>, <%= office.district %>, CEP nº <%= office.cep %>
+          </p>
+          <p><%= office.county %>, <%= office.uf %></p>
+        </div>
+      </div>
+      <div class="row" id="spaceItem">
+        <div class="col">
+          <p>Prezados Senhores:</p>
+        </div>
+      </div>
+      <div class="row" id="spaceItem">
+        <div class="col">
+          <p>
+            Declaramos para os devidos fins, como administrador e responsável
+            legal da empresa <%= office.razaoCliente %>, CNPJ <%=
+            office.cnpjCliente?.replace(/\D/g,
+            '').replace(/^(\d{2})(\d{3})?(\d{3})?(\d{4})?(\d{2})?/,
+            "$1.$2.$3/$4-$5"); %>, que as informações relativas ao período base
+            <%= new Date(office.endDate).toLocaleDateString() %>, fornecidas a
+            Vossas Senhorias para escrituração e elaboração das demonstrações
+            contábeis, obrigações acessórias, apuração de impostos e arquivos
+            eletrônicos exigidos pela fiscalização federal, estadual, municipal,
+            trabalhista e previdenciária são fidedignas.
+          </p>
+        </div>
+      </div>
+      <div class="row" id="spaceItem">
+        <div class="col">
+          <p>Também declaramos:</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="item">
+          <span>(a)</span>
+        </div>
+        <div class="col">
+          <p>
+            que os controles internos adotados pela nossa empresa são de
+            responsabilidade da administração e estão adequados ao tipo de
+            atividade e volume de transações;
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="item">
+          <p>(b)</p>
+        </div>
+        <div class="col">
+          <p>
+            que não realizamos nenhum tipo de operação que possa ser considerada
+            ilegal, frente à legislação vigente;
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="item">
+          <p>(c)</p>
+        </div>
+        <div class="col">
+          <p>
+            que todos os documentos que geramos e recebemos de nossos
+            fornecedores estão revestidos de total idoneidade;
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="item">
+          <p>(d)</p>
+        </div>
+        <div class="col">
+          <p>
+            que os estoques registrados em conta própria foram por nós
+            avaliados, contados e levantados fisicamente e perfazem a realidade
+            do período encerrado em <%= new Date(office.endDate).getFullYear();
+            %>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="item">
+          <p>(e)</p>
+        </div>
+        <div class="col">
+          <p>
+            que as informações registradas no sistema de gestão e controle
+            interno, denominado <%= office.systemGestor %>, são controladas e
+            validadas com documentação suporte adequada, sendo de nossa inteira
+            responsabilidade todo o conteúdo do banco de dados e arquivos
+            eletrônicos gerados.
+          </p>
+        </div>
+      </div>
+      <div class="row" id="spaceItem">
+        <div class="col">
+          <p>
+            Além disso, declaramos que não temos conhecimento de quaisquer fatos
+            ocorridos no período base que possam afetar as demonstrações
+            contábeis ou que as afetam até a data desta carta ou, ainda, que
+            possam afetar a continuidade das operações da empresa.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="item">
+          <p>(a)</p>
+        </div>
+        <div class="col">
+          <p>
+            fraude envolvendo administração ou empregados em cargos de
+            responsabilidade ou confiança;
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="item">
+          <p>(b)</p>
+        </div>
+        <div class="col">
+          <p>
+            fraude envolvendo terceiros que poderiam ter efeito material nas
+            demonstrações contábeis;
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="item">
+          <p>(c)</p>
+        </div>
+        <div class="col">
+          <p>
+            violação ou possíveis violações de leis, normas ou regulamentos
+            cujos efeitos deveriam ser considerados para divulgação nas
+            demonstrações contábeis, ou mesmo dar origem ao registro de provisão
+            para contingências passivas.
+          </p>
+        </div>
+      </div>
+      <footer>
+        <div class="row">
+          <div class="col" id="center" style="margin-bottom: 5%;">
+            <span>Atenciosamente</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" id="center">
+            <span>______________________________________________</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" id="center">
+            <span><%= office.responsavelLegCliente %></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" style="display: flex; justify-content: center;">
+            <span>
+              <%= office.cpfLegCliente?.replace(/\D/g,
+              '').replace(/^(\d{3})(\d{3})?(\d{3})?(\d{2})?/, "$1.$2.$3-$4");
+              %></span
+            >
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

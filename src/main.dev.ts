@@ -15,6 +15,13 @@ import { app, BrowserWindow, shell } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
+import handlers from './backend/handler';
+import pie from 'puppeteer-in-electron';
+import puppeteer from 'puppeteer-core';
+
+import server from '../api/src/server';
+
+const port = process.env.PORT || 3001;
 
 export default class AppUpdater {
   constructor() {
@@ -38,6 +45,11 @@ if (
   require('electron-debug')();
 }
 
+const initPieBrowser = async () => {
+  await pie.initialize(app);
+  return await pie.connect(app, puppeteer);
+};
+
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
@@ -51,7 +63,7 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-const createWindow = async () => {
+const createWindow = async (pieBrowser: puppeteer.Browser) => {
   if (
     process.env.NODE_ENV === 'development' ||
     process.env.DEBUG_PROD === 'true'
@@ -106,6 +118,8 @@ const createWindow = async () => {
     shell.openExternal(url);
   });
 
+  handlers(mainWindow, pieBrowser);
+
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
@@ -123,10 +137,25 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.whenReady().then(createWindow).catch(console.log);
+async function main() {
+  const pieBrowser = await initPieBrowser();
 
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) createWindow();
-});
+  app
+    .whenReady()
+    .then(async () => {
+      server.listen(port, () =>
+        console.log(`API running at http://localhost:${port}`)
+      );
+
+      return createWindow(pieBrowser);
+    })
+    .catch(console.log);
+
+  app.on('activate', async () => {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (mainWindow === null) createWindow(pieBrowser);
+  });
+}
+
+main();
